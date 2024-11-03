@@ -3,10 +3,15 @@ import SwiftData
 
 
 struct RecipesView: View {
-    @Environment(\.modelContext) private var context
     @State private var query = ""
     @State private var sortOrder = SortDescriptor(\Recipe.name)
     @Query private var recipes: [Recipe]
+    
+    private var filteredRecipes: [Recipe] {
+        recipes.filter { recipe in
+            query.isEmpty || recipe.name.localizedStandardContains(query) || recipe.summary.localizedStandardContains(query)
+        }.sorted(using: sortOrder)
+    }
     
     var body: some View {
         NavigationStack {
@@ -26,6 +31,7 @@ struct RecipesView: View {
                     RecipeForm(mode: mode)
                 }
         }
+        .searchable(text: $query)
     }
     
     @ToolbarContentBuilder
@@ -46,16 +52,10 @@ struct RecipesView: View {
     
     @ViewBuilder
     private var content: some View {
-        if recipes.isEmpty {
+        if filteredRecipes.isEmpty {
             empty
         } else {
-            list(for: recipes.filter {
-                if query.isEmpty {
-                    return true
-                } else {
-                    return $0.name.localizedStandardContains(query) || $0.summary.localizedStandardContains(query)
-                }
-            }.sorted(using: sortOrder))
+            list(for: filteredRecipes)
         }
     }
     
@@ -93,6 +93,5 @@ struct RecipesView: View {
                 }
             }
         }
-        .searchable(text: $query)
     }
 }

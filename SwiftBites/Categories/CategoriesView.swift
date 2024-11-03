@@ -5,6 +5,12 @@ struct CategoriesView: View {
     @Query private var categories: [CategoryModel]
     @State private var query = ""
     
+    private var filteredCategories: [CategoryModel] {
+        categories.filter { category in
+            query.isEmpty || category.name.localizedStandardContains(query)
+        }
+    }
+    
     // MARK: - Body
     
     var body: some View {
@@ -12,7 +18,7 @@ struct CategoriesView: View {
             content
                 .navigationTitle("Categories")
                 .toolbar {
-                    if !categories.isEmpty {
+                    if !filteredCategories.isEmpty {
                         NavigationLink(value: CategoryForm.Mode.add) {
                             Label("Add", systemImage: "plus")
                         }
@@ -25,22 +31,17 @@ struct CategoriesView: View {
                     RecipeForm(mode: mode)
                 }
         }
+        .searchable(text: $query)
     }
     
     // MARK: - Views
     
     @ViewBuilder
     private var content: some View {
-        if categories.isEmpty {
+        if filteredCategories.isEmpty {
             empty
         } else {
-            list(for: categories.filter {
-                if query.isEmpty {
-                    return true
-                } else {
-                    return $0.name.localizedStandardContains(query)
-                }
-            })
+            list(for: filteredCategories)
         }
     }
     
@@ -78,6 +79,5 @@ struct CategoriesView: View {
                 }
             }
         }
-        .searchable(text: $query)
     }
 }

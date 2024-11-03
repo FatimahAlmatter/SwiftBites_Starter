@@ -15,12 +15,18 @@ struct IngredientsView: View {
         
     }
     
+    private var filteredIngredients: [Ingredient] {
+        ingredients.filter { ingredient in
+            query.isEmpty || ingredient.name.localizedStandardContains(query)
+        }
+    }
+    
     var body: some View {
         NavigationStack {
             content
                 .navigationTitle("Ingredients")
                 .toolbar {
-                    if !ingredients.isEmpty {
+                    if !filteredIngredients.isEmpty {
                         NavigationLink(value: IngredientForm.Mode.add) {
                             Label("Add", systemImage: "plus")
                         }
@@ -30,20 +36,15 @@ struct IngredientsView: View {
                     IngredientForm(mode: mode)
                 }
         }
+        .searchable(text: $query)
     }
     
     @ViewBuilder
     private var content: some View {
-        if ingredients.isEmpty {
+        if filteredIngredients.isEmpty {
             empty
         } else {
-            list(for: ingredients.filter {
-                if query.isEmpty {
-                    return true
-                } else {
-                    return $0.name.localizedStandardContains(query)
-                }
-            })
+            list(for: filteredIngredients)
         }
     }
     
@@ -87,7 +88,6 @@ struct IngredientsView: View {
                 }
             }
         }
-        .searchable(text: $query)
         .listStyle(.plain)
     }
     
@@ -116,7 +116,13 @@ struct IngredientsView: View {
     }
     
     private func delete(ingredient: Ingredient) {
-        context.delete(ingredient)
+        let ingredientToDelete = ingredients.first { item in
+            item.id == ingredient.id
+        }
+        if let ingredientToDelete = ingredientToDelete {
+            context.delete(ingredientToDelete)
+            try? context.save()
+        }
         try? context.save()
     }
 }

@@ -50,6 +50,7 @@ struct RecipeForm: View {
     @State private var error: Error?
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
+    @Query private var recipeIngredients: [RecipeIngredient]
     @Query private var catagories : [CategoryModel]
     
     // MARK: - Body
@@ -277,7 +278,13 @@ struct RecipeForm: View {
         do {
             switch mode {
             case .add:
-                let newRecipe = Recipe(name: name, summary: summary, category: category, serving: serving, time: time, ingredients: ingredients, instructions: instructions, imageData: imageData)
+                let newRecipe = Recipe(name: name, summary: summary, category: category, serving: serving, time: time, instructions: instructions, imageData: imageData)
+                
+                for ingredient in ingredients {
+                    let newRecipeIngredient = RecipeIngredient(ingredient: ingredient.ingredient, quantity: ingredient.quantity)
+                    context.insert(newRecipeIngredient)
+                    newRecipe.ingredients.append(newRecipeIngredient)
+                }
                 context.insert(newRecipe)
                 try context.save()
             case .edit(let recipe):

@@ -4,8 +4,8 @@ import SwiftData
 @Model
 final class CategoryModel: Identifiable, Hashable {
     let id = UUID()
-    var name: String
-    @Relationship var recipes: [Recipe]
+    @Attribute(.unique) var name: String
+    @Relationship(deleteRule: .nullify) var recipes: [Recipe]
     
     init(name: String = "", recipes: [Recipe] = []) {
         self.name = name
@@ -24,7 +24,7 @@ final class CategoryModel: Identifiable, Hashable {
 @Model
 final class Ingredient: Identifiable, Hashable {
     let id = UUID()
-    var name: String
+    @Attribute(.unique) var name: String
     
     init(name: String = "") {
         self.name = name
@@ -46,12 +46,12 @@ final class RecipeIngredient: Identifiable, Hashable {
 @Model
 final class Recipe: Identifiable, Hashable {
     let id = UUID()
-    var name: String
+    @Attribute(.unique) var name: String
     var summary: String
-    @Relationship var category: CategoryModel?
+    @Relationship(deleteRule: .cascade) var category: CategoryModel?
     var serving: Int
     var time: Int
-    @Relationship var ingredients: [RecipeIngredient]
+    @Relationship(deleteRule: .nullify) var ingredients: [RecipeIngredient]
     var instructions: String
     var imageData: Data?
     

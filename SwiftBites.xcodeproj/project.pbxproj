@@ -21,7 +21,6 @@
 		07CF2F372B0A39FE003B83AD /* RecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CF2F362B0A39FE003B83AD /* RecipeCell.swift */; };
 		07F6DE3F2B04321F004AD929 /* IngredientForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F6DE3E2B04321F004AD929 /* IngredientForm.swift */; };
 		325114DD2CD3F3E0005B0D8C /* DataModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325114DC2CD3F3E0005B0D8C /* DataModels.swift */; };
-		325114DF2CD591D3005B0D8C /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325114DE2CD591D3005B0D8C /* MockData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +39,6 @@
 		07CF2F362B0A39FE003B83AD /* RecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCell.swift; sourceTree = "<group>"; };
 		07F6DE3E2B04321F004AD929 /* IngredientForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientForm.swift; sourceTree = "<group>"; };
 		325114DC2CD3F3E0005B0D8C /* DataModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataModels.swift; sourceTree = "<group>"; };
-		325114DE2CD591D3005B0D8C /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +84,6 @@
 				07A2073B2AFAF5100048B7EA /* App.swift */,
 				07A2073D2AFAF5100048B7EA /* Main.swift */,
 				325114DC2CD3F3E0005B0D8C /* DataModels.swift */,
-				325114DE2CD591D3005B0D8C /* MockData.swift */,
 				0719D4252B058E1800B1A4E3 /* Categories */,
 				07B772002AFC1D2E007BF4B0 /* Ingredients */,
 				07B771FF2AFC1D22007BF4B0 /* Recipes */,
@@ -197,7 +194,6 @@
 				0719D42F2B058E8D00B1A4E3 /* CategoryForm.swift in Sources */,
 				07A2073E2AFAF5100048B7EA /* Main.swift in Sources */,
 				07CF2F372B0A39FE003B83AD /* RecipeCell.swift in Sources */,
-				325114DF2CD591D3005B0D8C /* MockData.swift in Sources */,
 				0719D4342B0590B500B1A4E3 /* RecipesView.swift in Sources */,
 				07CF2F332B0A1D4C003B83AD /* Utils.swift in Sources */,
 				07F6DE3F2B04321F004AD929 /* IngredientForm.swift in Sources */,
