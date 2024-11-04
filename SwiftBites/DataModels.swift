@@ -48,7 +48,7 @@ final class Recipe: Identifiable, Hashable {
     let id = UUID()
     @Attribute(.unique) var name: String
     var summary: String
-    @Relationship(deleteRule: .cascade) var category: CategoryModel?
+    @Relationship(deleteRule: .nullify, inverse: \CategoryModel.recipes) var category: CategoryModel?
     var serving: Int
     var time: Int
     @Relationship(deleteRule: .nullify) var ingredients: [RecipeIngredient]

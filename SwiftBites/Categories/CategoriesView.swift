@@ -4,13 +4,7 @@ import SwiftData
 struct CategoriesView: View {
     @Query private var categories: [CategoryModel]
     @State private var query = ""
-    
-    private var filteredCategories: [CategoryModel] {
-        categories.filter { category in
-            query.isEmpty || category.name.localizedStandardContains(query)
-        }
-    }
-    
+    @Environment(\.modelContext) private var context
     // MARK: - Body
     
     var body: some View {
@@ -38,10 +32,28 @@ struct CategoriesView: View {
     
     @ViewBuilder
     private var content: some View {
-        if filteredCategories.isEmpty {
+        if categories.isEmpty {
             empty
         } else {
             list(for: filteredCategories)
+        }
+    }
+    
+    private var filteredCategories: [CategoryModel] {
+        let predicate = #Predicate { (category: CategoryModel) in
+            category.name.localizedStandardContains(query)
+        }
+        
+        let descriptor = FetchDescriptor<CategoryModel>(
+            predicate: query.isEmpty ? nil : predicate
+        )
+        
+        do {
+            let filteredCategories: [CategoryModel] = try context.fetch(descriptor)
+            return filteredCategories
+        } catch {
+            print("Failed to fetch categories: \(error)")
+            return []
         }
     }
     

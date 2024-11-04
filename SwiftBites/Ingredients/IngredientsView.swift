@@ -16,8 +16,20 @@ struct IngredientsView: View {
     }
     
     private var filteredIngredients: [Ingredient] {
-        ingredients.filter { ingredient in
-            query.isEmpty || ingredient.name.localizedStandardContains(query)
+        let predicate = #Predicate { (ingredient: Ingredient) in
+            ingredient.name.localizedStandardContains(query)
+        }
+        
+        let descriptor = FetchDescriptor<Ingredient>(
+            predicate: query.isEmpty ? nil : predicate
+        )
+        
+        do {
+            let filteredIngredient: [Ingredient] = try context.fetch(descriptor)
+            return filteredIngredient
+        } catch {
+            print("Failed to fetch ingredients: \(error)")
+            return []
         }
     }
     
